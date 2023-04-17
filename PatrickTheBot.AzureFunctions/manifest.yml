@@ -1,0 +1,33 @@
+display_information:
+  name: Patrick de Bot
+features:
+  bot_user:
+    display_name: Patrick de Bot
+    always_online: true
+  slash_commands:
+    - command: /transfer
+      url: https://replace-this.azurewebsites.net/api/wallet/transfer
+      description: Transfers Backend Bucks to the mentioned user
+      usage_hint: "[Amount of Backend Bucks] to [Recipient Slack User]"
+      should_escape: true
+    - command: /award
+      url: https://replace-this.azurewebsites.net/api/points/award
+      description: Award Backend Points to the mentioned user
+      usage_hint: "[Amount of Backend Points] to [Recipient Slack User]"
+      should_escape: true
+    - command: /level
+      url: https://replace-this.azurewebsites.net/api/points/level
+      description: Checks your Backend level
+      should_escape: true
+    - command: /balance
+      url: https://replace-this.azurewebsites.net/api/wallet/balance
+      description: Checks your Backend Bucks Balance
+      should_escape: true
+oauth_config:
+  scopes:
+    bot:
+      - commands
+settings:
+  org_deploy_enabled: false
+  socket_mode_enabled: false
+  token_rotation_enabled: false

@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <AzureFunctionsVersion>V4</AzureFunctionsVersion>
+        <Nullable>enable</Nullable>
+        <RootNamespace>PatrickTheBot.AzureFunctions</RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.DurableTask" Version="2.6.0" />
+        <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Tables" Version="1.0.0" />
+        <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.0.1" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="host.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="local.settings.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Update="Endpoints\Points\GetPointsLevel.cs">
+        <DependentUpon>PointsSystem.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Endpoints\Points\AwardPoints.cs">
+        <DependentUpon>PointsSystem.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+</Project>
