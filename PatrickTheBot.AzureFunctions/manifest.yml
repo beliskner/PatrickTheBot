@@ -6,21 +6,30 @@ features:
     always_online: true
   slash_commands:
     - command: /transfer
-      url: https://replace-this.azurewebsites.net/api/wallet/transfer
+      url: https://patrickthebot.azurewebsites.net/api/wallet/transfer
       description: Transfers Backend Bucks to the mentioned user
       usage_hint: "[Amount of Backend Bucks] to [Recipient Slack User]"
       should_escape: true
-    - command: /award
-      url: https://replace-this.azurewebsites.net/api/points/award
+    - command: /award-backend
+      url: https://patrickthebot.azurewebsites.net/api/points/award-backend
       description: Award Backend Points to the mentioned user
       usage_hint: "[Amount of Backend Points] to [Recipient Slack User]"
       should_escape: true
-    - command: /level
-      url: https://replace-this.azurewebsites.net/api/points/level
+    - command: /award-frontend
+      url: https://patrickthebot.azurewebsites.net/api/points/award-frontend
+      description: Award Frontend Points to the mentioned user
+      usage_hint: "[Amount of Frontend Points] to [Recipient Slack User]"
+      should_escape: true
+    - command: /backend-level
+      url: https://patrickthebot.azurewebsites.net/api/points/backend-level
       description: Checks your Backend level
       should_escape: true
+    - command: /frontend-level
+      url: https://patrickthebot.azurewebsites.net/api/points/frontend-level
+      description: Checks your Frontend level
+      should_escape: true
     - command: /balance
-      url: https://replace-this.azurewebsites.net/api/wallet/balance
+      url: https://patrickthebot.azurewebsites.net/api/wallet/balance
       description: Checks your Backend Bucks Balance
       should_escape: true
 oauth_config:
