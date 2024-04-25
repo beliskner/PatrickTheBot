@@ -1,8 +1,8 @@
 display_information:
-  name: Patrick de Bot
+  name: Patrick the Bot
 features:
   bot_user:
-    display_name: Patrick de Bot
+    display_name: Patrick the Bot
     always_online: true
   slash_commands:
     - command: /transfer
