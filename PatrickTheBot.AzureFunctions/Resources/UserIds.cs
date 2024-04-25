@@ -11,7 +11,7 @@ public static class UserIds
     
     public static readonly string[] BackendAdminIds =
     {
-        "00000000003",
+        "D070JQA3FAR",
         "00000000006",
         "00000000004",
         "00000000005"
@@ -19,7 +19,7 @@ public static class UserIds
     
     public static readonly string[] FrontendAdminIds =
     {
-        "00000000007",
+        "D070JQA3FAR",
         "00000000008",
         "00000000010",
         "00000000009",
