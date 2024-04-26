@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using PatrickTheBot.AzureFunctions.Models;
-
-namespace PatrickTheBot.AzureFunctions.Utilities;
+﻿namespace PatrickTheBot.AzureFunctions.Utilities;
 
 public static class WalletExtensions
 {
@@ -71,7 +66,7 @@ public static class WalletExtensions
     {
         var amount = remainder / currencyValue;
         if (amount <= 0) return (remainder, altDictionary);
-        altDictionary.Add(amount == 1 ? currencyName : $"{currencyName}s", amount);
+        altDictionary.Add(amount is 1 ? currencyName : $"{currencyName}s", amount);
 
         return (remainder % currencyValue, altDictionary);
     }

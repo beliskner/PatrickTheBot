@@ -1,17 +1,11 @@
-﻿using System.Threading.Tasks;
-using Azure;
-using Azure.Data.Tables;
-using Microsoft.Extensions.Logging;
-using PatrickTheBot.AzureFunctions.Models;
-
-namespace PatrickTheBot.AzureFunctions.Utilities;
+﻿namespace PatrickTheBot.AzureFunctions.Utilities;
 
 public static class WalletTableUtilities
 {
     public const string TableName = "wallets";
     private const string PartitionKey = "WALLET";
     
-        public static async Task<bool> TransferBackendBucks(WalletTableEntity senderWallet, WalletTableEntity recipientWallet,
+        public async static Task<bool> TransferBackendBucks(WalletTableEntity senderWallet, WalletTableEntity recipientWallet,
         int amount, TableClient walletTable, ILogger log)
     {
         var transferSucceeded = true;
@@ -38,7 +32,7 @@ public static class WalletTableUtilities
         return transferSucceeded;
     }
 
-    public static async Task<WalletTableEntity?> GetWalletForSlackUser(SlackUser slackUser, TableClient walletTable, ILogger log)
+    public async static Task<WalletTableEntity?> GetWalletForSlackUser(SlackUser slackUser, TableClient walletTable, ILogger log)
     {
         log.LogInformation("Getting wallet by id {Id}", slackUser.Id);
         WalletTableEntity wallet;
@@ -56,7 +50,7 @@ public static class WalletTableUtilities
         return wallet;
     }
 
-    private static async Task<WalletTableEntity> CreateWalletForSlackUser(SlackUser slackUser, TableClient walletTable, ILogger log)
+    private async static Task<WalletTableEntity> CreateWalletForSlackUser(SlackUser slackUser, TableClient walletTable, ILogger log)
     {
         var wallet = new Wallet(slackUser).ToTable();
         await walletTable.AddEntityAsync(wallet);

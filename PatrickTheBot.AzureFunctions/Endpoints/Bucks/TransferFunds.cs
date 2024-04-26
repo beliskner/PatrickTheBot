@@ -1,28 +1,13 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Azure.Data.Tables;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Extensions.Logging;
-using PatrickTheBot.AzureFunctions.Models;
-using PatrickTheBot.AzureFunctions.Resources;
-using PatrickTheBot.AzureFunctions.Utilities;
-
-namespace PatrickTheBot.AzureFunctions.Endpoints.Bucks;
+﻿namespace PatrickTheBot.AzureFunctions.Endpoints.Bucks;
 
 public static class TransferFunds
 {
     private const string Route = "wallet";
-
     private const string CurrencyName = "Backend Bucks";
 
     [FunctionName("TransferFunds")]
-    public static async Task<IActionResult> RunTransferFundsAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = Route + "/transfer")] HttpRequest req,
-        [Table(WalletTableUtilities.TableName, Connection = "AzureWebJobsStorage")] TableClient walletTable,
-        ILogger log)
+    public async static Task<IActionResult> RunTransferFundsAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = Route + "/transfer")] HttpRequest req,
+        [Table(WalletTableUtilities.TableName, Connection = "AzureWebJobsStorage")] TableClient walletTable, ILogger log)
     {
         await walletTable.CreateIfNotExistsAsync();
         var canFindText = req.Form.TryGetValue("text", out var textFormValue);
@@ -54,7 +39,10 @@ public static class TransferFunds
         var senderWallet = senderWalletTask.Result;
         var recipientWallet = recipientWalletTask.Result;
         
-        if (senderWallet.BackendBucks - transferAmount < 0 && !UserIds.BackendAdminIds.Contains(sender.Id))
+        if (senderWallet is null || recipientWallet is null)
+            return new OkObjectResult(new SlackResponse("Come on buddy, to be able to transfer money both of you gotta have wallets. Get your act together."));
+        
+        if (senderWallet.BackendBucks - transferAmount < 0 && !UserIds.IsSuperAdmin(sender.Id))
             return new OkObjectResult(new SlackResponse($"Seriously? Transferring {transferAmount} {CurrencyName} would put you in debt. Did you really think we do loans here?"));
 
         var transferSuccessful = await WalletTableUtilities.TransferBackendBucks(senderWallet, recipientWallet, transferAmount, walletTable, log);
@@ -69,11 +57,9 @@ public static class TransferFunds
     }
 
     [FunctionName("CheckBalance")]
-    public static async Task<IActionResult> RunCheckBalanceAsync(
+    public async static Task<IActionResult> RunCheckBalanceAsync(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = Route + "/balance")] HttpRequest req,
-        [Table(WalletTableUtilities.TableName, Connection = "AzureWebJobsStorage")]
-        TableClient walletTable,
-        ILogger log)
+        [Table(WalletTableUtilities.TableName, Connection = "AzureWebJobsStorage")] TableClient walletTable, ILogger log)
     {
         await walletTable.CreateIfNotExistsAsync();
         
@@ -84,7 +70,7 @@ public static class TransferFunds
 
         var userWallet = await WalletTableUtilities.GetWalletForSlackUser(user, walletTable, log);
 
-        if (userWallet.BackendBucks == 0)
+        if (userWallet.BackendBucks is 0)
             return new OkObjectResult(new SlackResponse("Your broke ass is in possession of a grand total of 💲0 buckeroonies"));
         
         return new OkObjectResult(new SlackResponse($"Your current balance is 💲{userWallet.BackendBucks} {CurrencyName} {userWallet.PrintAlternativeCurrencies()}"));

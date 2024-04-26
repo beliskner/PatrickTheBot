@@ -1,7 +1,4 @@
-﻿using PatrickTheBot.AzureFunctions.Models;
-using PatrickTheBot.AzureFunctions.Utilities;
-
-namespace PatrickTheBot.AzureFunctions.Resources;
+﻿namespace PatrickTheBot.AzureFunctions.Resources;
 
 public static class ExampleModels
 {

@@ -1,18 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Web.Http;
-using Azure;
-using Azure.Data.Tables;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Extensions.Logging;
-using PatrickTheBot.AzureFunctions.Enums;
-using PatrickTheBot.AzureFunctions.Models;
-using PatrickTheBot.AzureFunctions.Resources;
-using PatrickTheBot.AzureFunctions.Utilities;
-
-namespace PatrickTheBot.AzureFunctions.Endpoints.Points;
+﻿namespace PatrickTheBot.AzureFunctions.Endpoints.Points;
 
 public static partial class PointsSystem
 {
@@ -21,7 +7,7 @@ public static partial class PointsSystem
     private const int MaxAwardAmount = 5;
 
     [FunctionName("AwardBackendPoints")]
-    public static async Task<IActionResult> RunAwardBackendPointsAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = Route + "/award-backend")] HttpRequest req,
+    public async static Task<IActionResult> RunAwardBackendPointsAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = Route + "/award-backend")] HttpRequest req,
         [Table(WalletTableUtilities.TableName, Connection = "AzureWebJobsStorage")] TableClient walletTable,
         ILogger log)
     {
@@ -29,14 +15,14 @@ public static partial class PointsSystem
     }
     
     [FunctionName("AwardFrontendPoints")]
-    public static async Task<IActionResult> RunAwardFrontendPointsAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = Route + "/award-frontend")] HttpRequest req,
+    public async static Task<IActionResult> RunAwardFrontendPointsAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = Route + "/award-frontend")] HttpRequest req,
         [Table(WalletTableUtilities.TableName, Connection = "AzureWebJobsStorage")] TableClient walletTable,
         ILogger log)
     {
         return await BuildAwardResponse(req, walletTable, log, Department.Frontend);
     }
 
-    private static async Task<IActionResult> BuildAwardResponse(HttpRequest req, TableClient walletTable, ILogger log,
+    private async static Task<IActionResult> BuildAwardResponse(HttpRequest req, TableClient walletTable, ILogger log,
         Department department)
     {
         await walletTable.CreateIfNotExistsAsync();

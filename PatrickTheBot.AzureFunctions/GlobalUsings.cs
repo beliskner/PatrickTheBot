@@ -1,0 +1,19 @@
+﻿// Global using directives
+global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Text;
+global using System.Threading.Tasks;
+global using System.Web.Http;
+global using Azure;
+global using Azure.Data.Tables;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.Azure.WebJobs;
+global using Microsoft.Azure.WebJobs.Extensions.Http;
+global using Microsoft.Extensions.Logging;
+global using PatrickTheBot.AzureFunctions.Endpoints.Points;
+global using PatrickTheBot.AzureFunctions.Enums;
+global using PatrickTheBot.AzureFunctions.Models;
+global using PatrickTheBot.AzureFunctions.Resources;
+global using PatrickTheBot.AzureFunctions.Utilities;

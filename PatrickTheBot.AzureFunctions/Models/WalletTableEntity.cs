@@ -1,8 +1,4 @@
-﻿using System;
-using Azure;
-using Azure.Data.Tables;
-
-namespace PatrickTheBot.AzureFunctions.Models;
+﻿namespace PatrickTheBot.AzureFunctions.Models;
 
 public record WalletTableEntity : ITableEntity
 {

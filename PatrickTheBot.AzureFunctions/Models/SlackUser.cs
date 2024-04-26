@@ -1,10 +1,4 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Http;
-using PatrickTheBot.AzureFunctions.Endpoints.Points;
-using PatrickTheBot.AzureFunctions.Enums;
-using PatrickTheBot.AzureFunctions.Resources;
-
-namespace PatrickTheBot.AzureFunctions.Models;
+﻿namespace PatrickTheBot.AzureFunctions.Models;
 
 public record SlackUser
 {
@@ -64,7 +58,7 @@ public record SlackUser
 
     private static Department GetDepartment(string userId)
     {
-        if (UserIds.BackendAdminIds.Contains(userId) || UserIds.BackendInternIds.Contains(userId))
+        if (UserIds.IsSuperAdmin(userId) || UserIds.BackendAdminIds.Contains(userId) || UserIds.BackendInternIds.Contains(userId))
             return Department.Backend;
         if (UserIds.FrontendAdminIds.Contains(userId))
             return Department.Frontend;
