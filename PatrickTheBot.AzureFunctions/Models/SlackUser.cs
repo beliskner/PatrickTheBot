@@ -35,6 +35,10 @@ public record SlackUser
 
     public static bool IsAuthorizedForCommand(SlackUser slackUser, Department department, out string unauthorizedReturnMessage)
     {
+        unauthorizedReturnMessage = "If you're seeing this message you probably broke something and I'm gonna have to report you to the backend authorities";
+        if (UserIds.IsSuperAdmin(slackUser.Id))
+            return true;
+        
         switch (department)
         {
             case Department.Backend:
@@ -44,7 +48,6 @@ public record SlackUser
                 unauthorizedReturnMessage = $"The point of awarding {PointsSystem.FrontendPointsName} is that a frontend developer awards them I mean come on";
                 return slackUser.Department is Department.Frontend;
             default:
-                unauthorizedReturnMessage = "If you're seeing this message you probably broke something and I'm gonna have to report you to the backend authorities";
                 return false;
         }
     }
